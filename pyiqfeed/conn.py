@@ -801,7 +801,7 @@ class QuoteConn(FeedConn):
         """Process a regional quote message."""
         assert len(fields) > 11
         assert fields[0] == "R"
-        rgn_quote = self._empty_regional_msg
+        rgn_quote = np.copy(self._empty_regional_msg)
         rgn_quote["Symbol"] = fields[1]
         rgn_quote["Regional Bid"] = fr.read_float64(fields[3])
         rgn_quote["Regional BidSize"] = fr.read_uint64(fields[4])
@@ -833,7 +833,7 @@ class QuoteConn(FeedConn):
 
     def _create_update(self, fields: Sequence[str]) -> np.array:
         """Create an update message."""
-        update = self._empty_update_msg
+        update = np.copy(self._empty_update_msg)
         for field_num, field in enumerate(fields[1:]):
             if field_num >= self._num_update_fields and field == "":
                 break
@@ -845,7 +845,7 @@ class QuoteConn(FeedConn):
         """Process a fundamental data message."""
         assert len(fields) > 55
         assert fields[0] == 'F'
-        msg = self._empty_fundamental_msg
+        msg = np.copy(self._empty_fundamental_msg)
 
         msg['Symbol'] = fields[1]
         msg['PE'] = fr.read_float64(fields[3])
