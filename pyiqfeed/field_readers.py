@@ -110,51 +110,55 @@ def read_split_string(split_str: str) -> Tuple[np.float64, np.datetime64]:
     return split_data
 
 
-def read_hhmmss_no_colon(field: str) -> int:
+def read_hhmmss_no_colon(field: str) -> np.timedelta64:
     """Read a HH:MM:SS field and return us since midnight."""
     if field != "":
         hour = int(field[0:2])
         minute = int(field[2:4])
         second = int(field[4:6])
-        return 1000000 * ((3600 * hour) + (60 * minute) + second)
+        us = 1000000 * ((3600 * hour) + (60 * minute) + second)
+        return np.timedelta64(us, 'us')
     else:
-        return 0
+        return np.timedelta64('NaT')
 
 
-def read_hhmmss(field: str) -> int:
+def read_hhmmss(field: str) -> np.timedelta64:
     """Read a HH:MM:SS field and return us since midnight."""
     if field != "":
         hour = int(field[0:2])
         minute = int(field[3:5])
         second = int(field[6:8])
-        return 1000000 * ((3600 * hour) + (60 * minute) + second)
+        us = 1000000 * ((3600 * hour) + (60 * minute) + second)
+        return np.timedelta64(us, 'us')
     else:
-        return 0
+        return np.timedelta64('NaT')
 
 
-def read_hhmmssmil(field: str) -> int:
+def read_hhmmssmil(field: str) -> np.timedelta64:
     """Read a HH:MM:SS:MILL field and return us since midnight."""
     if field != "":
         hour = int(field[0:2])
         minute = int(field[3:5])
         second = int(field[6:8])
         msecs = int(field[9:])
-        return ((1000000 * ((3600 * hour) + (60 * minute) + second)) +
+        us = ((1000000 * ((3600 * hour) + (60 * minute) + second)) +
                 (1000 * msecs))
+        return np.timedelta64(us, 'us')
     else:
-        return 0
+        return np.timedelta64('NaT')
 
 
-def read_hhmmssus(field: str) -> int:
+def read_hhmmssus(field: str) -> np.timedelta64:
     """Read a HH:MM:SS.us field and return us since midnight."""
     if field != "":
         hour = int(field[0:2])
         minute = int(field[3:5])
         second = int(field[6:8])
         micro = int(field[9:])
-        return (1000000 * ((3600 * hour) + (60 * minute) + second)) + micro
+        us = (1000000 * ((3600 * hour) + (60 * minute) + second)) + micro
+        return np.timedelta64(us, 'us')
     else:
-        return 0
+        return np.timedelta64('NaT')
 
 
 def read_mmddccyy(field: str) -> np.datetime64:
